@@ -13,6 +13,11 @@ RUN sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/pos
 
 ADD ./etc/service/postgresql /etc/service/postgresql
 
-VOLUME ["/var/lib/postgresql"]
+ADD ./sbin/backup /sbin/backup
+RUN mkdir -p /data/backups/
+RUN echo "0 * * * * /sbin/backup >>/var/log/cronrun 2>&1" | crontab -
+
+VOLUME ["/data/database"]
+VOLUME ["/data/backups/full"]
 EXPOSE 5432
 CMD ["/sbin/my_init"]

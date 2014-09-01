@@ -1,0 +1,12 @@
+#!/bin/bash -ex
+
+echo "Starting backup..."
+
+mkdir -p /data/backups/full
+
+export PGDATABASE=docker
+export PGPASSWORD=docker
+pg_dump \
+    --host=localhost \
+    --username=docker \
+    --file=/data/backups/full/backup_postgres_docker_$(date --utc --iso-8601=ns).sql
