@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.10
+FROM phusion/baseimage:0.9.13
 MAINTAINER Nicolas Tresegnie <nicolas.tresegnie@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
