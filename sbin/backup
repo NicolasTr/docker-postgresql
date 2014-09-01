@@ -7,7 +7,15 @@ mkdir -p /data/backups/full
 . /data/env
 export PGDATABASE=${POSTGRESQL_DB}
 export PGPASSWORD=${POSTGRESQL_PASS}
+filename="backup_postgres_${POSTGRESQL_DB}_$(date --utc --iso-8601=ns).sql"
 pg_dump \
     --host=localhost \
     --username=${POSTGRESQL_USER} \
-    --file=/data/backups/full/backup_postgres_${POSTGRESQL_DB}_$(date --utc --iso-8601=ns).sql
+    --file=/data/backups/full/${filename}
+
+if [ -n "${AWS_ACCESS_KEY_ID}" ] && [ -n "${AWS_SECRET_ACCESS_KEY}" ] && [ -n "${AWS_S3_BUCKET}" ]
+then
+    export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-"us-east-1"}
+    export AWS_S3_BUCKET_KEY_PREFIX=${AWS_S3_BUCKET_KEY_PREFIX:-"/"}
+    aws s3 cp /data/backups/full/${filename} s3://${AWS_S3_BUCKET}${AWS_S3_BUCKET_KEY_PREFIX}${filename}
+fi
