@@ -11,6 +11,9 @@ RUN apt-get update \
 RUN echo "host    all             all             0.0.0.0/0               md5" >> /etc/postgresql/9.3/main/pg_hba.conf
 RUN sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.3/main/postgresql.conf
 
+RUN sudo apt-get update && sudo apt-get install -y python-pip
+RUN pip install awscli==1.4.2
+
 ADD ./etc/service/postgresql /etc/service/postgresql
 
 ADD ./sbin/backup /sbin/backup
