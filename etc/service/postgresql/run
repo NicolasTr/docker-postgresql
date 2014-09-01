@@ -3,10 +3,12 @@ set -e
 
 echo "Starting postgresql..."
 
-POSTGRESQL_USER=${POSTGRESQL_USER:-"docker"}
-POSTGRESQL_PASS=${POSTGRESQL_PASS:-"docker"}
-POSTGRESQL_DB=${POSTGRESQL_DB:-"docker"}
-POSTGRESQL_TEMPLATE=${POSTGRESQL_TEMPLATE:-"template0"}
+export POSTGRESQL_USER=${POSTGRESQL_USER:-"docker"}
+export POSTGRESQL_PASS=${POSTGRESQL_PASS:-"docker"}
+export POSTGRESQL_DB=${POSTGRESQL_DB:-"docker"}
+export POSTGRESQL_TEMPLATE=${POSTGRESQL_TEMPLATE:-"template0"}
+
+env | xargs -I {} echo export {} > /data/env
 
 POSTGRESQL_BIN=/usr/lib/postgresql/9.3/bin/postgres
 POSTGRESQL_CONFIG_FILE=/etc/postgresql/9.3/main/postgresql.conf
